@@ -80,6 +80,7 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         if ($request->hasFile('image')) {
+            File::delete('storage/images/' . $book->image);
             $filenameWithExt = $request->file('image')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
