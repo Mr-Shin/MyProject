@@ -17,7 +17,7 @@
 
     <div class="card mt-5">
         <div class="text-center card-img">
-            <img style="width: 300px;height:300px" src='/storage/images/{{$book->image}}'>
+            <img class="rounded" style="width: 300px;height:300px" src='/storage/images/{{$book->image}}'>
         </div>
         <h1 class="card-header text-center mt-3">{{$book->name}}</h1>
         <h4 class="text-center card-title">{{$book->author}}</h4>

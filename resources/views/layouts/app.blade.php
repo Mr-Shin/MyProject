@@ -63,7 +63,7 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <img style="width: 50px;height:50px" src='/storage/images/{{\Illuminate\Support\Facades\Auth::user()->photo}}'>
+                            <img class="rounded-circle" style="width: 50px;height:50px" src='/storage/images/{{\Illuminate\Support\Facades\Auth::user()->photo}}'>
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle font-weight-bold font-italic"
