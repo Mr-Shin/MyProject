@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+@include('includes.tinyMCE')
     {{--@if ($errors->any())--}}
     {{--<div class="form-group">--}}
     {{--<div id="V-alert" class="alert alert-danger">--}}

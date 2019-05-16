@@ -93,7 +93,7 @@
 
     <main>
         <div class="container col-sm-6">
-            @include('flash-messages')
+            @include('includes.flash-messages')
             @yield('content')
         </div>
     </main>

@@ -22,7 +22,7 @@
         <h1 class="card-header text-center mt-3">{{$book->name}}</h1>
         <h4 class="text-center card-title">{{$book->author}}</h4>
         <div class="card-body">
-            <blockquote class="blockquote mb-0 text-justify">{{$book->summary}}</blockquote>
+            <blockquote class="blockquote mb-0 text-justify">{!! $book->summary !!}</blockquote>
         </div>
         <div class="card-footer">
             <p class="font-italic text-center text-info">
