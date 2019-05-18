@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Category;
+use App\Comment;
+use App\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -29,7 +31,8 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
-        return view('books.show', compact('book'));
+        $comments=$book->comments;
+        return view('books.show', compact('book','comments'));
     }
 
     public function create()
@@ -63,7 +66,6 @@ class BookController extends Controller
         $book = Auth::user()->books()->create($sample);
         $book->categories()->attach($request->get('category_id'));
 
-//        session()->flash('status','Created.');
         return redirect(route('books.index'))->with('success', 'The book was added successfully.');
     }
 
@@ -93,7 +95,7 @@ class BookController extends Controller
 
         $book->update($request->only(['name', 'author', 'summary']));
         $book->categories()->sync($request->get('category_id'));
-        return redirect(route('books.update', ['id' => $book->id]))->with('success', 'The book was updated successfully.');
+        return redirect(route('books.show', ['id' => $book->id]))->with('success', 'The book was updated successfully.');
     }
 
     public function delete($id)
@@ -117,4 +119,30 @@ class BookController extends Controller
 
     }
 
+    public function newComment(Request $request,$id)
+    {
+        Comment::create([
+                'author' => Auth::user()->name,
+                'photo'=>Auth::user()->photo,
+                'text' => $request->text,
+                'book_id'=>$id
+            ]
+        );
+        return redirect(route('books.show',  ['id' =>$id]));
+
+    }
+
+    public function newReply(Request $request)
+    {
+//        dd($request->toArray());
+        Reply::create([
+                'author' => Auth::user()->name,
+                'photo'=>Auth::user()->photo,
+                'text' => $request->text,
+                'comment_id'=>$request->comment_id
+            ]
+        );
+        return redirect()->back();
+
+    }
 }

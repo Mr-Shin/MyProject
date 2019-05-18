@@ -50,7 +50,7 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
         $request->session()->flash('info', 'You are logged out!');
-        return $this->loggedOut($request) ?: redirect('/books');
+        return $this->loggedOut($request) ?: redirect()->back();
     }
 
 }
