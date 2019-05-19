@@ -31,7 +31,7 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
-        $comments=$book->comments;
+        $comments=$book->comments()->paginate(2);
         return view('books.show', compact('book','comments'));
     }
 

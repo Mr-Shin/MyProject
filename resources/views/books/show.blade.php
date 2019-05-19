@@ -140,7 +140,11 @@
         <br>
 
     @endforeach
-
+    <div class="row">
+    <div class="col-sm-12" style="margin-left: 40%">
+{{$comments->links()}}
+    </div>
+    </div>
 @endsection
 
 
