@@ -81,14 +81,7 @@
                         </blockquote>
                     </div>
                 </div>
-                {{--<div class="row" style="text-align: right;--}}
-    {{--position: absolute;--}}
-    {{--right: 20px;--}}
-    {{--bottom: 10px;--}}
-{{--">--}}
-                    {{--<button class="btn dropdown-toggle font-weight-bold font-italic showReplies"--}}
-                       {{--href="#" role="button">Replies</button>--}}
-                {{--</div>--}}
+
             </div>
 
 
@@ -146,21 +139,5 @@
     </div>
     </div>
 @endsection
-
-
-{{--@section('scripts')--}}
-{{--<script>--}}
-
-    {{--$(document).ready(function () {--}}
-
-{{--$('div>button.showReplies').click(function () {--}}
-
-    {{--$('.re').next().toggle('slow');--}}
-
-{{--});--}}
-    {{--});--}}
-
-{{--</script>--}}
-
 
 
