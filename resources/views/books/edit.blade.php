@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('includes.tinyMCE')
+{{--@include('includes.tinyMCE')--}}
     <div class="card">
         <div class="card-body">
             <form method="POST" action="{{route('books.update',['id'=>$book->id])}}" enctype="multipart/form-data">

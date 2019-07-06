@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('includes.tinyMCE')
+    {{--@include('includes.tinyMCE')--}}
     <div class="row">
         <div class="col-sm-6">
             <a class="btn btn-block btn-info" href={{route('books.index')}}>Back to list</a>
