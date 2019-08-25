@@ -69,7 +69,12 @@
                     <label for="name">
                         Add Category:
                     </label>
-                    <input type="text" class="form-control" name="name">
+                    <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" >
+                    @if ($errors->has('name'))
+                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name')}}</strong>
+                                    </span>
+                    @endif
                     <button type="submit" class="btn btn-block btn-primary mt-3">Add</button>
                 </div>
             </form>

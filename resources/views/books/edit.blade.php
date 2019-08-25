@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label for="image">Image:</label>
-                    <input type="file" class="form-control-sm" name="image" id="image">
+                    <input type="file" class="form-control-file" name="image" id="image">
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-success btn-block">Update</button>

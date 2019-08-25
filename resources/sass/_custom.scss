@@ -1,0 +1,115 @@
+#footer {
+  background: #3d3737;
+  padding: 20px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.card-header {
+  background-color: #4d5351;
+  color: white;
+}
+.card-footer {
+  background-color: #4d5351;
+  color: white;
+}
+
+.nav-item {
+  color: white;
+}
+
+.navbar-toggler {
+  background-color: #eee;
+}
+
+.index {
+  background-image: linear-gradient(to right, white 60%, $custom-blue);
+  border: $custom-blue 3px solid;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  background-image: url("../../public/storage/images/bookcase-books-bookshelf-1166657.jpg");
+
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc
+}
+
+.btn-primary.focus, .btn-primary:focus {
+  box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .5)
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745
+}
+
+.btn-success:hover {
+  color: #fff;
+  background-color: #218838;
+  border-color: #1e7e34
+}
+
+.btn-success.focus, .btn-success:focus {
+  box-shadow: 0 0 0 .2rem rgba(72, 180, 97, .5)
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8
+}
+
+.btn-info:hover {
+  color: #fff;
+  background-color: #138496;
+  border-color: #117a8b
+}
+
+.btn-info.focus, .btn-info:focus {
+  box-shadow: 0 0 0 .2rem rgba(58, 176, 195, .5)
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545
+}
+
+.btn-danger:hover {
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130
+}
+
+.btn-danger.focus, .btn-danger:focus {
+  box-shadow: 0 0 0 .2rem rgba(225, 83, 97, .5)
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff
+}

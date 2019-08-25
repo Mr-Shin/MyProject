@@ -110,7 +110,9 @@ class BookController extends Controller
 
     public function newCategory(Request $request)
     {
-
+        $request->validate([
+            'name' => 'required|unique:categories'
+        ]);
         Category::create([
                 'name' => $request->name
             ]

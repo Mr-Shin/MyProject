@@ -3,9 +3,12 @@
 @section('content')
 
     @if($books->isEmpty())
+        <div class="index mb-2" style="padding: 20px">
         <h5 class="text-center font-italic">We don't have any books yet! Add one :) </h5>
-    @else
-        <table class="table">
+        </div>
+            @else
+
+        <table class="table table-striped index">
 
             <tr>
                 <th>
