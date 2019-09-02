@@ -10,20 +10,11 @@
     <title>My Project</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
+    <script src="{{ asset('js/app.js') }}"></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
+  @yield('styles')
 
-        main > .container {
-
-            padding-top: 60px
-        }
-
-    </style>
 </head>
 <body>
 <div id="app">
@@ -35,15 +26,17 @@
         </div>
     </main>
 </div>
-
+<div style="clear: both"></div>
 <div id="footer" class="text-center border-top">
     &copy;MyProject
 </div>
+@yield('scripts')
 <script>
     $(document).ready(function() {
-
-        !$("div.alert").delay(2000).fadeOut(700);
-    })
+        $("div.alert").delay(2000).fadeOut(700);
+    });
 </script>
+@yield('readyscript')
+
 </body>
 </html>

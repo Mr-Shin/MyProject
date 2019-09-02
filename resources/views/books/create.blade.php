@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-{{--@include('includes.tinyMCE')--}}
+    {{--@include('includes.tinyMCE')--}}
+    <div class="text-center mb-3">
+        <a class="btn btn-lg btn-info" style="width: 50%" href="{{route('books.index')}}">Back to list</a>
+    </div>
     <div class="card">
         <div class="card-body">
             <form method="POST" action="{{route('books.store')}}" enctype="multipart/form-data">
@@ -32,8 +35,8 @@
 
                 <div class="form-group shadow-textarea">
                     <label for="summary">Summary:</label>
-                    <textarea class="form-control z-depth-1" name="summary" id="summary" rows="5"
-                              placeholder="Write something here...">{{old('summary')}}</textarea>
+                    <input id="summary" type="hidden" name="summary" value="{{old('summary')}}">
+                    <trix-editor input="summary"></trix-editor>
                 </div>
 
                 <div class="form-group">
@@ -50,9 +53,8 @@
                     <label for="category">Category:</label>
                     <select name="category_id[]" id="category" class="form-control" multiple>
                         @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->name}}</option>
+                            <option value="{{$category->id}}" {{ (collect(old('category_id'))->contains($category->id)) ? 'selected' : '' }}>{{$category->name}}</option>
                         @endforeach
-
                     </select>
 
                 </div>
@@ -69,7 +71,7 @@
                     <label for="name">
                         Add Category:
                     </label>
-                    <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" >
+                    <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name">
                     @if ($errors->has('name'))
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name')}}</strong>
@@ -85,4 +87,19 @@
 
     </div>
 
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
+@endsection
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+@endsection
+
+@section('readyscript')
+    <script>
+        $('#category').select2();
+    </script>
 @endsection

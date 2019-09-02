@@ -11,6 +11,8 @@ class Reply extends Model
         'author',
         'photo',
         'comment_id',
+        'user_id',
+
     ];
 
 

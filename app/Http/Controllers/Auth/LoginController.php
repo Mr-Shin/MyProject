@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+//    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        $request->session()->flash('success', 'You are logged in!');
+        return redirect()->intended('/books')->with('success', 'You are logged in!');
     }
 
     public function logout(Request $request)
@@ -50,7 +50,7 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
         $request->session()->flash('info', 'You are logged out!');
-        return $this->loggedOut($request) ?: redirect()->back();
+        return $this->loggedOut($request) ?: redirect()->intended('/books');
     }
 
 }

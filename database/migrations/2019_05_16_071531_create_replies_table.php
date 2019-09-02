@@ -20,6 +20,7 @@ class CreateRepliesTable extends Migration
             $table->longText('text');
             $table->timestamps();
             $table->unsignedBigInteger('comment_id');
+            $table->unsignedBigInteger('user_id');
 
 
 

@@ -7,9 +7,18 @@
         <div class="col-sm-6">
             <a class="btn btn-block btn-info" href={{route('books.index')}}>Back to list</a>
         </div>
-        <div class="col-sm-6">
-            <a class="btn btn-block btn-success" href={{route('books.edit',['id'=>$book->id])}}>Update</a>
-        </div>
+        @can('update',$book)
+            <div class="col-sm-6">
+                <a class="btn btn-block btn-success" href={{route('books.edit',['id'=>$book->id])}}>Edit</a>
+            </div>
+        @else
+            <div class="col-sm-6">
+                <button type="button" class="btn btn-block btn-success" data-toggle="tooltip" data-placement="bottom"
+                        title="Only {{$book->user->name}} can edit this book." disabled>Edit
+                </button>
+            </div>
+        @endcan
+
     </div>
 
 
@@ -17,7 +26,7 @@
 
 
 
-    <div class="card mt-5">
+    <div class="card mt-3">
         <div class="text-center mt-3">
             <img class="rounded" style="width: 300px;height:300px" src='/storage/images/{{$book->image}}'>
         </div>
@@ -30,7 +39,8 @@
             <p class="font-italic text-center text-info">
                 @foreach($book->categories as $category)
 
-                    <em class="col-sm-4">{{$category->name}}</em>
+                    <a href="{{route('category.show',['id'=>$category->id])}}"><em
+                                class="col-sm-4">{{$category->name}}</em></a>
                 @endforeach
             </p>
 
@@ -39,164 +49,201 @@
     <br>
     <br>
 
+    <div class="jumbotron">
 
-    @if(\Illuminate\Support\Facades\Auth::check())
+        @auth
 
+            <form action="{{route('comment.store',['id'=>$book->id])}}" method="POST">
+                @csrf
 
-        <form action="{{route('comment.store',['id'=>$book->id])}}" method="POST">
-            @csrf
-            <div class="form-group">
-                <textarea class="form-control" name="text"
-                          id="text" placeholder="Leave a message..." rows="5"
-                >
-            </textarea>
-                <div class="text-center mt-1">
-                    <button type="submit" class="btn btn-block btn-primary">Comment</button>
+                @if ($errors->has('comment'))
+                    <div class="text-center">
+                    <span class="badge-danger">
+                                        <strong>{{ $errors->first('comment') }}</strong>
+                                    </span>
+                    </div>
+                @endif
+                <div class="row">
+                    <div class="col-2 text-right">
+                        <img src="/storage/images/{{\Illuminate\Support\Facades\Auth::user()->photo}}" height="100px"
+                             alt="...">
+
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group">
+                <textarea class="form-control" name="comment"
+                          id="comment" placeholder="Leave a message..." rows="3"
+                ></textarea>
+                            <div class="text-center mt-1">
+                                <button id="myBtn" type="submit" class="btn btn-block btn-primary"
+                                        style="display: none">Comment
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
 
 
-        </form>
-    @endif
-    <ul class="list-group">
-        @foreach($comments as $comment)
-    <li class="media bg-white">
-        <img src="/storage/images/{{$comment->photo}}" class="mr-3 ml-2 mt-3" height="100px" alt="...">
-        <div class="media-body mt-3">
-            <div class="row">
-            <p class="col-7 font-weight-bold font-italic">{!! $comment->author!!}
+            </form>
+            <hr>
+        @endauth
 
-            </p>
-                <p class="col-4 ml-5 text-right font-italic text-secondary">{!! $comment->created_at->diffForHumans()!!}</p>
-            </div>
-            <blockquote class="blockquote mb-0 text-justify">
-                {!! $comment->text !!}
-            </blockquote>
-            <ul>
-            @foreach($comment->replies as $reply)
-            <li class="media mt-4 mb-2">
-                <img src="/storage/images/{{$reply->photo}}" class="mr-3" height="100px" alt="...">
-                <div class="media-body">
-                    <div class="row">
-                    <p class="col-7 font-weight-bold font-italic">{!! $reply->author!!}
-                    </p>
-                        <p class="col-4 text-right font-italic text-secondary">{!! $reply->created_at->diffForHumans()!!}</p>
-                    </div>
-                    <blockquote class="blockquote mb-0 text-justify">
-                        {!! $reply->text !!}
-                    </blockquote>
+        <ul class="list-group">
+            @if ($errors->has('text'))
+                <div class="text-center">
+                    <span class="badge-danger">
+                                        <strong>{{ $errors->first('text') }}</strong>
+                                    </span>
                 </div>
-            </li>
-            @endforeach
-
-            </ul>
-        </div>
-
-    </li>
-            @if(\Illuminate\Support\Facades\Auth::check())
-
-                <form action="{{route('reply.store')}}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <input type="hidden" name="comment_id" value="{{$comment->id}}">
-                        <label for="text">Reply:</label>
-                        <input class="form-control" name="text"
-                               id="text" placeholder="Enter your reply..."
-                        >
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-block btn-success">Reply</button>
-                    </div>
-
-                </form>
             @endif
+            @foreach($comments as $comment)
 
-            <br>
+                <li class="media text-white comment mb-2">
+                    <img src="/storage/images/{{$comment->photo}}" class="mr-3 ml-2 mt-3 rounded-circle" height="100px"
+                         alt="...">
+                    <div class="media-body mt-3">
+                        <div class="row">
+                            <p class="col-7 font-weight-bold font-italic">{!! $comment->author!!}
 
-        @endforeach
-    </ul>
-    {{--<br>--}}
-    {{--<br>--}}
-    {{--<br>--}}
-    {{--@foreach($comments as $comment)--}}
+                            </p>
+                            <p class="col-4 ml-5 text-right font-italic">{!! $comment->created_at->diffForHumans()!!}</p>
+                        </div>
+                        <blockquote class="blockquote mb-0 text-justify">
+                            {!! $comment->comment !!}
+                        </blockquote>
+                        @auth
+                            <a class="dropdown-toggle"
+                               href="" role="button" data-toggle="collapse" data-target="#form{{$comment->id}}"
+                               aria-expanded="false"
+                               v-pre>Reply</a>
+                            @if(auth()->user()->id == $comment->user_id)
+                                <a href="#deleteModal" role="button"
+                                   onclick="deleteComment({{$comment->id}},{{$book->id}})"
+                                   id="delete"
+                                   class="ml-2 text-danger">Delete
+                                </a>
+                            @endif
 
-        {{--<div class="card">--}}
-            {{--<div class="card-body">--}}
-                {{--<div class="row">--}}
-                    {{--<div class="card-img col-sm-2">--}}
-                        {{--<img height="100px" src="/storage/images/{{$comment->photo}}" alt="">--}}
+                            <form id="form{{$comment->id}}" class="mt-2 collapse" action="{{route('reply.store')}}"
+                                  method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                    <input class="form-control" name="text"
+                                           id="text" placeholder="Leave a message and press 'Enter'"
+                                    >
+                                </div>
+                                <div class="form-group text-center">
+                                    <input type="submit" class="d-none">
+                                </div>
 
-                    {{--</div>--}}
-                    {{--<div class="col-sm-10">--}}
-
-                        {{--<p class="font-weight-bold font-italic">{!! $comment->author!!}--}}
-                            {{--<small><i> {!! $comment->created_at->diffForHumans()!!}</i></small>--}}
-                        {{--</p>--}}
-                        {{--<p class="text-right"></p>--}}
-
-                        {{--<blockquote class="blockquote mb-0 text-justify">--}}
-                            {{--{!! $comment->text !!}--}}
-                        {{--</blockquote>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
-            {{--</div>--}}
-
-
-        {{--</div>--}}
-        {{--@foreach($comment->replies as $reply)--}}
-
-            {{--<div class="card replies" style="left: 100px;margin-top: 10px">--}}
-                {{--<div class="card-body" id="replies">--}}
-                    {{--<div class="row">--}}
-                        {{--<div class="card-img col-sm-2">--}}
-                            {{--<img height="100px" src="/storage/images/{{$reply->photo}}" alt="">--}}
-
-                        {{--</div>--}}
-                        {{--<div class="card-title col-sm-10">--}}
-
-                            {{--<p class="font-weight-bold font-italic">{!! $reply->author!!}--}}
-                                {{--<small><i> {!! $reply->created_at->diffForHumans()!!}</i></small>--}}
-                            {{--</p>--}}
-                            {{--<p class="text-right"></p>--}}
-
-                            {{--<blockquote class="blockquote mb-0 text-justify">--}}
-                                {{--{!! $reply->text !!}--}}
-                            {{--</blockquote>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+                            </form>
+                        @endauth
 
 
-            {{--</div>--}}
-        {{--@endforeach--}}
-        {{--@if(\Illuminate\Support\Facades\Auth::check())--}}
+                        <ul>
+                            @foreach($comment->replies as $reply)
+                                <li class="media mt-4 mb-2">
+                                    <img src="/storage/images/{{$reply->photo}}" class="mr-3 rounded-circle"
+                                         height="100px" alt="...">
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <p class="col-7 font-weight-bold font-italic">{!! $reply->author!!}
+                                            </p>
+                                            <p class="col-4 text-right font-italic">{!! $reply->created_at->diffForHumans()!!}</p>
+                                        </div>
+                                        <blockquote
+                                                class="blockquote mb-0 text-justify">{!! $reply->text !!}</blockquote>
+                                        @if(auth()->user()->id == $reply->user_id)
+                                            <p class="text-right mr-5">
+                                            <a href="#deleteModal" role="button"
+                                               onclick="deleteReply({{$reply->id}},{{$book->id}})"
+                                               id="deleteReply"
+                                               class="text-danger">Delete
+                                            </a>
+                                            </p>
+                                        @endif
 
-            {{--<form action="{{route('reply.store')}}" method="POST">--}}
-                {{--@csrf--}}
-                {{--<div class="form-group">--}}
-                    {{--<input type="hidden" name="comment_id" value="{{$comment->id}}">--}}
-                    {{--<label for="text">Reply:</label>--}}
-                    {{--<input class="form-control" name="text"--}}
-                           {{--id="text" placeholder="Enter your reply..."--}}
-                    {{-->--}}
-                {{--</div>--}}
-                {{--<div class="form-group text-center">--}}
-                    {{--<button type="submit" class="btn btn-block btn-success">Reply</button>--}}
-                {{--</div>--}}
+                                    </div>
+                                </li>
+                            @endforeach
 
-            {{--</form>--}}
-        {{--@endif--}}
+                        </ul>
 
-        {{--<br>--}}
+                    </div>
 
-    {{--@endforeach--}}
+                </li>
+
+
+            @endforeach
+        </ul>
+    </div>
+
+
+
+
     <div class="row">
-    <div class="col-sm-12" style="margin-left: 40%">
-{{$comments->links()}}
+        <div class="col-sm-12">
+            {{$comments->links()}}
+        </div>
     </div>
-    </div>
+
+    <form id="form" action="" method="POST">
+        @method('DELETE')
+        @csrf
+        <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title">Delete Comment</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true" class="text-white">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="font-weight-bold text-lg-center text-dark">Are you sure you
+                            want to delete this comment?!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            No,Go back.
+                        </button>
+                        <button type="submit" class="btn btn-danger">Yeah,Go ahead</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <script>
+        function deleteComment(comment, id) {
+            var form = document.getElementById('form');
+            form.action = '/books/' + id + '/' + comment;
+            $("#deleteModal").modal('show');
+        }
+        function deleteReply(reply, id) {
+            var form = document.getElementById('form');
+            form.action =` /books/${id}/comments/replies/${reply}`;
+            $("#deleteModal").modal('show');
+        }
+
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#comment").keyup(function () {
+            $value = $("#comment").val();
+            if ($value) {
+                $("#myBtn").fadeIn();
+            } else {
+                $("#myBtn").fadeOut();
+
+            }
+        });
+    </script>
 @endsection
+
+
 
 
 

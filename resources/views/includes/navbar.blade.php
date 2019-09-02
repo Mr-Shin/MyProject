@@ -16,7 +16,12 @@
             </ul>
 
             <!-- Right Side Of Navbar -->
+
             <ul class="navbar-nav ml-auto">
+                <form action="{{route('books.index')}}" method="GET" class="form-inline my-2 my-lg-0">
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="{{request()->query('search')}}">
+                    <input type="submit" class="d-none">
+                </form>
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item ">

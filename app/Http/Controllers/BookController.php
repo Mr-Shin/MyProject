@@ -23,7 +23,14 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = Book::all();
+        $search=\request()->query('search');
+        if ($search){
+            $books=Book::where("name","LIKE","%{$search}%")->paginate(5);
+
+        }
+        else {
+            $books = Book::paginate(5);
+        }
         return view('books.index', compact('books'));
     }
 
@@ -31,7 +38,7 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
-        $comments=$book->comments()->paginate(2);
+        $comments=$book->comments()->paginate(3);
         return view('books.show', compact('book','comments'));
     }
 
@@ -49,7 +56,7 @@ class BookController extends Controller
             'name' => 'required',
             'author' => 'required',
             'summary' => 'nullable',
-            'image' => 'required',
+            'image' => 'required|image|max:2000',
 
 
         ]);
@@ -108,43 +115,4 @@ class BookController extends Controller
 
     }
 
-    public function newCategory(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|unique:categories'
-        ]);
-        Category::create([
-                'name' => $request->name
-            ]
-        );
-        return redirect(route('books.create'));
-
-    }
-
-    public function newComment(Request $request,$id)
-    {
-        Comment::create([
-                'author' => Auth::user()->name,
-                'photo'=>Auth::user()->photo,
-                'text' => $request->text,
-                'book_id'=>$id
-            ]
-        );
-        return redirect(route('books.show',  ['id' =>$id]));
-
-    }
-
-    public function newReply(Request $request)
-    {
-//        dd($request->toArray());
-        Reply::create([
-                'author' => Auth::user()->name,
-                'photo'=>Auth::user()->photo,
-                'text' => $request->text,
-                'comment_id'=>$request->comment_id
-            ]
-        );
-        return redirect()->back();
-
-    }
 }

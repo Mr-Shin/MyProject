@@ -17,9 +17,10 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('author');
             $table->string('photo');
-            $table->longText('text');
+            $table->longText('comment');
             $table->timestamps();
             $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('user_id');
 
 
 
