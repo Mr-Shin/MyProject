@@ -87,6 +87,10 @@
 
             </form>
             <hr>
+            @else
+            <div class="justify-content-center row">
+            <a href="{{route('login')}}" style="width: 50%" class="btn btn-primary btn-block">Sign in to leave a comment.</a>
+            </div>
         @endauth
 
         <ul class="list-group">
