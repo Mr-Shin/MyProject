@@ -28,9 +28,16 @@ Route::post('/books/{id}/comment','CommentController@store')->name("comment.stor
 Route::delete('/books/{id}/{comment}','CommentController@destroy')->name("comment.delete");
 Route::delete('/books/{id}/comments/replies/{reply}','ReplyController@destroy')->name('reply.delete');
 Route::delete('/books/{id}','BookController@delete')->name('books.delete');
+Route::put('/{user}/edit/1', 'HomeController@update')->name('profile.update');
 Route::put('/books/{id}','BookController@update')->name("books.update");
 Route::get('/categories/{category}','CategoryController@show')->name('category.show');
 
-Auth::routes();
+Auth::routes(['verify'=>true]);
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/{user}/profile', 'HomeController@profile')->name('profile');
+Route::get('/{user}/edit', 'HomeController@edit')->name('profile.edit');
+Route::get('/admin/dashboard', 'HomeController@dashboard')->name('dashboard');
+Route::get('/admin/posts', 'HomeController@posts')->name('posts');
+Route::delete('/admin/posts/{post}', 'HomeController@delete')->name('post.delete');
+Route::get('/admin/notifications', 'HomeController@notifications')->name('notifications');

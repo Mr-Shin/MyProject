@@ -13,16 +13,31 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-  @yield('styles')
+    @yield('styles')
 
 </head>
 <body>
 <div id="app">
-@include('includes.navbar')
+    @include('includes.navbar')
     <main>
         <div class="container col-sm-8">
             @include('includes.flash-messages')
-            @yield('content')
+
+            <div class="row">
+                <div class="col-4">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="{{route('posts')}}">Posts</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{route('notifications')}}">Notifications</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-8">
+                    @yield('content')
+                </div>
+            </div>
         </div>
     </main>
 </div>
@@ -40,3 +55,7 @@
 
 </body>
 </html>
+
+@section('content')
+
+@endsection

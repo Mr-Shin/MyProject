@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
 use App\Comment;
+use App\Notifications\NewCommentAdded;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,16 +16,19 @@ class CommentController extends Controller
         $request->validate([
            'comment'=>'required',
         ]);
-        Comment::create([
+        $comment=Comment::create([
                 'author' => Auth::user()->name,
                 'user_id' => Auth::user()->id,
                 'photo'=>Auth::user()->photo,
                 'comment' => $request->comment,
                 'book_id'=>$id,
-                'user_id' => Auth::user()->id,
 
             ]
         );
+        $book=Book::find($id);
+        if (Auth::user()->id!=$book->user_id) {
+            $book->user->notify(new NewCommentAdded($comment));
+        }
         return redirect(route('books.show',  ['id' =>$id]));
 
     }
