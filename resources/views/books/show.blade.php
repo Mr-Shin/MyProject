@@ -65,7 +65,7 @@
                 @endif
                 <div class="row">
                     <div class="col-2 text-right">
-                        <img src="/storage/images/{{\Illuminate\Support\Facades\Auth::user()->photo}}" height="100px"
+                        <img src="/storage/images/{{\Illuminate\Support\Facades\Auth::user()->photo}}" height="100px" width="100px"
                              alt="...">
 
                     </div>
@@ -89,7 +89,7 @@
             <hr>
             @else
             <div class="justify-content-center row">
-            <a href="{{route('login')}}" style="width: 50%" class="btn btn-primary btn-block">Sign in to leave a comment.</a>
+            <a href="{{route('login')}}" style="width: 50%" class="btn btn-primary btn-block mb-2">Sign in to leave a comment.</a>
             </div>
         @endauth
 

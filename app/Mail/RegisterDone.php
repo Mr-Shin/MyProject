@@ -2,32 +2,34 @@
 
 namespace App\Mail;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RegisterDone extends Mailable
+class RegisterDone extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
+    public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user=$user;
     }
 
     /**
-     * Build the message.
+* Build the message.
      *
      * @return $this
-     */
+    */
     public function build()
-    {
-        return $this->subject('Welcome!')->view('emails.register_done');
-    }
+{
+    return $this->subject('Welcome!')->view('emails.register_done')->with(['user'=>$this->user]);
+}
 }

@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-Hi {{\Illuminate\Support\Facades\Auth::user()->name}}.
+Hi {{$user->name}}.
 Welcome to our website!
 </body>
 </html>

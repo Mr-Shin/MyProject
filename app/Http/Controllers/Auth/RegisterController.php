@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Jobs\RegisterEmailJob;
 use App\Mail\RegisterDone;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -86,7 +88,7 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
 //        $request->session()->flash('success', 'You are logged in!');
-        Mail::to($user)->send(new RegisterDone());
+        $this->dispatch(new RegisterEmailJob($user));
 
     }
 }
