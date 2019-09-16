@@ -8,10 +8,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-//Custom
-@import 'custom';
+  //Custom
+  @import 'custom';
 
-.navbar-laravel {
+  .navbar-laravel {
   color:white;
   background-color: #3d3737;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

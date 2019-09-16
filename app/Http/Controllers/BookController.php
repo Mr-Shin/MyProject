@@ -18,7 +18,7 @@ class BookController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware(['auth','admin'])->except(['index', 'show']);
     }
 
     public function index()
@@ -29,7 +29,7 @@ class BookController extends Controller
 
         }
         else {
-            $books = Book::paginate(5);
+            $books = Book::paginate(6);
         }
         return view('books.index', compact('books'));
     }
@@ -55,6 +55,7 @@ class BookController extends Controller
         $request->validate([
             'name' => 'required',
             'author' => 'required',
+            'price' => 'required',
             'summary' => 'nullable',
             'image' => 'required|image|max:2000',
 
@@ -80,7 +81,7 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         $categories = Category::all();
-        $this->authorize('update', $book);
+//        $this->authorize('update', $book);
 
         return view('books.edit', compact('book', 'categories'));
     }
@@ -100,7 +101,7 @@ class BookController extends Controller
         }
 
 
-        $book->update($request->only(['name', 'author', 'summary']));
+        $book->update($request->only(['name', 'author', 'summary','price']));
         $book->categories()->sync($request->get('category_id'));
         return redirect(route('books.show', ['id' => $book->id]))->with('success', 'The book was updated successfully.');
     }

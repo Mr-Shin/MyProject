@@ -41,3 +41,6 @@ Route::get('/admin/dashboard', 'HomeController@dashboard')->name('dashboard');
 Route::get('/admin/posts', 'HomeController@posts')->name('posts');
 Route::delete('/admin/posts/{post}', 'HomeController@delete')->name('post.delete');
 Route::get('/admin/notifications', 'HomeController@notifications')->name('notifications');
+Route::get('/cart', 'CartController@index')->name('cart');
+Route::post('/cart', 'CartController@add')->name('cart.add');
+Route::delete('/cart/{id}', 'CartController@remove')->name('cart.remove');

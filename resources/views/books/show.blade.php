@@ -7,17 +7,32 @@
         <div class="col-sm-6">
             <a class="btn btn-block btn-info" href={{route('books.index')}}>Back to list</a>
         </div>
-        @can('update',$book)
+        @auth
+            @if(auth()->user()->is_admin)
+                <div class="col-sm-6">
+                    <a class="btn btn-block btn-success" href={{route('books.edit',['id'=>$book->id])}}>Edit</a>
+                </div>
+            @else
             <div class="col-sm-6">
-                <a class="btn btn-block btn-success" href={{route('books.edit',['id'=>$book->id])}}>Edit</a>
+                <form action="{{route('cart.add')}}" method="POST">
+                    @csrf
+                    <input name="id" type="hidden" value="{{$book->id}}">
+                    <button type="submit" class="btn btn-block btn-success float-right">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to cart
+
+                    </button>
+                </form>
+                {{--<a class="btn btn-block btn-success" href={{route('cart.add',['id'=>$book->id])}}>Add to cart</a>--}}
             </div>
+            @endif
         @else
             <div class="col-sm-6">
                 <button type="button" class="btn btn-block btn-success" data-toggle="tooltip" data-placement="bottom"
-                        title="Only {{$book->user->name}} can edit this book." disabled>Edit
+                        title="Sign in to have a cart" disabled>Add to cart
                 </button>
             </div>
-        @endcan
+        @endauth
 
     </div>
 
@@ -32,6 +47,7 @@
         </div>
         <h1 style="background-color: #1b1e21;color:white" class="text-center mt-3">{{$book->name}}</h1>
         <h4 class="text-center card-title">{{$book->author}}</h4>
+        <h4 class="text-center card-title">${{$book->price}}</h4>
         <div class="card-body">
             <blockquote class="blockquote mb-0 text-justify">{!! $book->summary !!}</blockquote>
         </div>
@@ -104,7 +120,7 @@
             @foreach($comments as $comment)
 
                 <li class="media text-white comment mb-2">
-                    <img src="/storage/images/{{$comment->photo}}" class="mr-3 ml-2 mt-3 rounded-circle" height="100px"
+                    <img src="/storage/images/{{$comment->photo}}" class="mr-3 ml-2 mt-3 rounded-circle" height="130px" width="130px"
                          alt="...">
                     <div class="media-body mt-3">
                         <div class="row">
@@ -134,13 +150,11 @@
                                 @csrf
                                 <div class="form-group">
                                     <input type="hidden" name="comment_id" value="{{$comment->id}}">
-                                    <input class="form-control" name="text"
+                                    <input class="form-control" name="text" type="text"
                                            id="text" placeholder="Leave a message and press 'Enter'"
                                     >
                                 </div>
-                                <div class="form-group text-center">
-                                    <input type="submit" class="d-none">
-                                </div>
+
 
                             </form>
                         @endauth
@@ -150,7 +164,7 @@
                             @foreach($comment->replies as $reply)
                                 <li class="media mt-4 mb-2">
                                     <img src="/storage/images/{{$reply->photo}}" class="mr-3 rounded-circle"
-                                         height="100px" alt="...">
+                                         height="130px" width="130px" alt="...">
                                     <div class="media-body">
                                         <div class="row">
                                             <p class="col-7 font-weight-bold font-italic">{!! $reply->author!!}

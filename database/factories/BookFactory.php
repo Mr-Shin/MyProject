@@ -7,7 +7,8 @@ $factory->define(App\Book::class, function (Faker $faker) {
         'name' => $faker->name,
         'author' => $faker->name,
         'summary' => $faker->paragraph,
-        'image'=>'Screenshot (5)_1567246975.png',
+        'image'=>'bookcase-books-bookshelf-1166657.jpg',
+        'price'=>$faker->randomNumber(2),
         'user_id'=>'1'
     ];
 });

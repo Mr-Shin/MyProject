@@ -3,6 +3,18 @@
         <a class="navbar-brand text-white" href="{{ url('/') }}">
             My Project
         </a>
+        <form id="search" action="
+@switch(\Illuminate\Support\Facades\Route::currentRouteName())
+        @case('posts')
+        {{route('posts')}}
+        @break
+        @default
+        {{route('books.index')}}
+        @endswitch
+                " method="GET" class="form-inline my-2 my-lg-0 collapse">
+            <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search"
+                   aria-label="Search" value="{{request()->query('search')}}">
+        </form>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="{{ __('Toggle navigation') }}">
@@ -12,6 +24,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a
+                       href="" role="button" data-toggle="collapse" data-target="#search"
+                       aria-expanded="false">
+                        <span class="fas fa-search text-white" style="font-size: x-large"></span>
+
+                    </a>
+                </li>
+
+
                 @auth
                     @if(auth()->user()->is_admin)
                         @if(auth()->user()->unreadNotifications->count()>0)
@@ -33,11 +55,16 @@
             <!-- Right Side Of Navbar -->
 
             <ul class="navbar-nav ml-auto">
-                <form action="" method="GET" class="form-inline my-2 my-lg-0">
-                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search"
-                           aria-label="Search" value="{{request()->query('search')}}">
-                    <input type="submit" class="d-none">
-                </form>
+                <li class="nav-item mr-2">
+                    <a href="{{route('cart')}}" class="nav-link">
+                        <i class="fas fa-shopping-cart text-white" style="font-size: xx-large;color: #c2c2c2">
+
+                        </i>
+                        <span class="badge badge-info rounded-circle">{{Cart::count()}}</span>
+
+
+                    </a>
+                </li>
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item ">
@@ -66,10 +93,10 @@
                                 Profile
                             </a>
                             @if(Auth::user()->is_admin)
-                            <a class="dropdown-item font-italic"
-                               href="{{ route('dashboard') }}">
-                                Dashboard
-                            </a>
+                                <a class="dropdown-item font-italic"
+                                   href="{{ route('dashboard') }}">
+                                    Dashboard
+                                </a>
                             @endif
                             <a class="dropdown-item font-italic" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
@@ -87,4 +114,5 @@
             </ul>
         </div>
     </div>
+
 </nav>

@@ -32,6 +32,17 @@
                                     </span>
                     @endif
                 </div>
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}"
+                           name="price" id="price" placeholder="Book's price"
+                           value="{{old('price')}}">
+                    @if ($errors->has('author'))
+                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('author') }}</strong>
+                                    </span>
+                    @endif
+                </div>
 
                 <div class="form-group shadow-textarea">
                     <label for="summary">Summary:</label>

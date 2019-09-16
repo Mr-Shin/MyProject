@@ -8,7 +8,7 @@ class Book extends Model
 {
     protected $fillable=[
 
-        'name','author',"summary",'image'
+        'name','author',"summary",'image','price'
     ];
 
     public function categories()

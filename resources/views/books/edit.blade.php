@@ -21,7 +21,11 @@
                     <input type="text" class="form-control" name="author" id="author" placeholder="Author's name"
                            value="{{$book->author}}">
                 </div>
-
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" class="form-control" name="price" id="price" placeholder="Book's price"
+                           value="{{$book->price}}">
+                </div>
                 <div class="form-group shadow-textarea">
                     <label for="summary">Summary:</label>
                     <input id="summary" type="hidden" name="summary" value="{{$book->summary}}">

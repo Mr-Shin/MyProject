@@ -25,22 +25,22 @@
                         <p>
                             {!! $user->about !!}</p>
                     </blockquote>
-                    <div class="row my-3" style="position:absolute;bottom:0;width: 100%">
-                        <div class="col-4">
-                            <a href="{{route('profile.edit',['user'=>\Illuminate\Support\Str::slug($user->name)])}}" class="btn btn-primary btn-block">Edit Profile</a>
-                        </div>
-                        @if($user->is_admin)
-                        <div class="col-8">
-                        <a href="{{route('dashboard')}}" class="btn btn-primary btn-block">Dashboard</a>
-                        </div>
-                            @endif
-                        </div>
                  </div>
 
             </div>
 
             </div>
+    </div>
+    <div class="row my-3">
+        <div class="mb-2 col-sm-6">
+            <a href="{{route('profile.edit',['user'=>\Illuminate\Support\Str::slug($user->name)])}}" class="btn btn-primary btn-block">Edit Profile</a>
         </div>
+        @if($user->is_admin)
+            <div class="col-sm-6">
+                <a href="{{route('dashboard')}}" class="btn btn-primary btn-block">Dashboard</a>
+            </div>
+        @endif
+    </div>
 
 
 @endsection
